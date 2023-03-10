@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { TaskCard } from "./TaskCard";
 import { BoxCard } from "./BoxCard";
-import './stylesheet/TaskList.css'; 
+import "./stylesheet/TaskList.css";
 
 export const TaskList = () => {
   const [tasks, setTasks] = useState([
@@ -9,17 +9,24 @@ export const TaskList = () => {
     { id: 7825, name: "Edit React Lectures", completed: false },
     { id: 8391, name: "Watch Lectures", completed: false },
   ]);
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   function handleDelete(id) {
     setTasks(tasks.filter((task) => id !== task.id));
   }
+  const headerStyles = {
+    color: show ? "#3D8361" : "#be3434",
+    border: "2px solid #be3434",
+    borderColor: show ? "#3D8361" : "#be3434",  
+    borderRadius: '5px',
+    padding: "20px",
+  };
   return (
     <section className="tasklist">
-      <h1>Task List</h1>
+      <h1 style={headerStyles}>Task List</h1>
       <ul>
         <button onClick={() => setShow(!show)} className="trigger">
-          Toggle
+          {show ? "Hide" : "Show"}
         </button>
 
         {show &&
