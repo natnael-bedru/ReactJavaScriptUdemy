@@ -4,7 +4,7 @@ import Loading from '../assets/loading.gif';
 
 export const ProductList = () => {
   const [url, setUrl] = useState("http://localhost:8000/products");
-  const { data:products, loading } = useFetch(url);
+  const { data:products, loading, error } = useFetch(url);
 
   return (
     <section>
@@ -19,6 +19,7 @@ export const ProductList = () => {
         </button>
       </div>
        { loading && <p className="loading"><img src={Loading} alt="loading.gif" /></p>}
+       { error && <p>{error}</p>}
 
       {products && products.map((product) => (
         <div className="card" key={product.id}>
