@@ -1,26 +1,40 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const ProductList = () => {
-    const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [url, setUrl] = useState("http://localhost:8000/products");
 
-    useEffect (() => { 
-        fetch("http://localhost:8000/products")
-        .then(response => response.json())
-        .then(data => setProducts(data));
-    },  []);
-     
+  useEffect(() => {
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setProducts(data));
+  }, [url]);
+
   return (
     <section>
-        {products.map((product) => (
-            <div className="card" key={product.id}>
-                <p className="id">{product.id}</p>
-               <p className="name">{product.name}</p>
-                <p className="info">
-                    <span>${product.price}</span>
-                    <span className={product.in_stock ? "instock" : "unavailable" }>{product.in_stock ? "In Stock" : "Unavailable"} </span>
-                </p>
-            </div>
-        ))}
+      <div className="filter">
+        <button onClick={() => setUrl("http://localhost:8000/products")}>
+          All
+        </button>
+        <button
+          onClick={() => setUrl("http://localhost:8000/products?in_stock=true")}
+        >
+          In Stock Only
+        </button>
+      </div>
+
+      {products.map((product) => (
+        <div className="card" key={product.id}>
+          <p className="id">{product.id}</p>
+          <p className="name">{product.name}</p>
+          <p className="info">
+            <span>${product.price}</span>
+            <span className={product.in_stock ? "instock" : "unavailable"}>
+              {product.in_stock ? "In Stock" : "Unavailable"}{" "}
+            </span>
+          </p>
+        </div>
+      ))}
     </section>
-  )
-}
+  );
+};
