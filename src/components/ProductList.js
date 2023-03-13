@@ -1,14 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [url, setUrl] = useState("http://localhost:8000/products");
 
-  useEffect(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => setProducts(data));
+  const fetchProducts = useCallback(async () => {
+    const response = await fetch(url);
+    const data = await response.json();
+    setProducts(data);
   }, [url]);
+
+  useEffect(() => {
+    fetchProducts();
+    console.log("-");
+  }, [fetchProducts]);
+  /*
+  ``
+  const fetchProducts = async () => {
+    const response = await fetch(url);
+    const data = await response.json();
+    setProducts(data);
+  };
+  useEffect(() => {
+    fetchProducts();
+    console.log("-");
+  }, [fetchProducts]);
+  ``
+
+  Why we can't set dependency as function, list, arrays, objects
+
+  Two functions, list, arrays, obects will always be different 
+  because their memory reference is different at the time of comparison 
+  When re-evaluation occurs their memory address will be different hence the programme will be stuck in infinite loop
+  */
 
   return (
     <section>
